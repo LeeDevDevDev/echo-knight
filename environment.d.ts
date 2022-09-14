@@ -3,9 +3,10 @@ declare global {
     interface ProcessEnv {
       botToken: string;
       guildId: string;
-      environment: "dev" | "prod" | "debug";
+      environment: 'dev' | 'prod' | 'debug';
       clientId: string;
       mgId: string;
+      cookie: string;
     }
   }
 }

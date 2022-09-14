@@ -51,21 +51,42 @@ export async function interactionCreate(interaction: Interaction) {
 
   // Music Interactions
   if (interaction.commandName === 'play') {
-    const voice = getUserVoice(interaction);
+    const userVoice = getUserVoice(interaction);
+    const clientVoice = getVoiceConnection(interaction.guildId);
+
+    if (!client.distube.getQueue(userVoice.guild.id) && clientVoice) {
+      clientVoice.disconnect();
+    }
 
     const song = interaction.options.getString('song');
     await interaction.reply('Attempting to add ' + song + ' to queue...');
-    playMusic(voice.channel, song);
+    playMusic(userVoice.channel, song);
   } else if (interaction.commandName === 'skip') {
+    if (!client.distube.getQueue(interaction.guildId)) {
+      await interaction.reply('There is nothing to skip, my guy.');
+      return;
+    }
     await interaction.reply('Skipping...');
     skipMusic(interaction.guildId);
   } else if (interaction.commandName === 'stop') {
+    if (!client.distube.getQueue(interaction.guildId)) {
+      await interaction.reply('There is nothing to skip, my guy.');
+      return;
+    }
     await interaction.reply('Stopping...');
     stopMusic(interaction.guildId);
   } else if (interaction.commandName === 'pause') {
+    if (!client.distube.getQueue(interaction.guildId)) {
+      await interaction.reply('There is nothing to skip, my guy.');
+      return;
+    }
     await interaction.reply('Pausing...');
     pauseMusic(interaction.guildId);
   } else if (interaction.commandName === 'resume') {
+    if (!client.distube.getQueue(interaction.guildId)) {
+      await interaction.reply('There is nothing to skip, my guy.');
+      return;
+    }
     await interaction.reply('Resuming...');
     resumeMusic(interaction.guildId);
   }

@@ -17,7 +17,11 @@ export class ExtendedClient extends Client {
   distube = new DisTube(this, {
     nsfw: true,
     leaveOnStop: false,
-    leaveOnEmpty: false,
+    leaveOnEmpty: true,
+    searchCooldown: 0,
+    emptyCooldown: 0,
+    youtubeCookie: process.env.cookie,
+    joinNewVoiceChannel: false,
   });
 
   constructor() {

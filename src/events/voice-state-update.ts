@@ -21,5 +21,5 @@ async function disconnectBotOnLeave(oldState: VoiceState) {
 }
 
 async function disconnectBot(oldState: VoiceState) {
-  getVoiceConnection(oldState.guild.id).disconnect();
+  getVoiceConnection(oldState.guild.id)?.disconnect();
 }
