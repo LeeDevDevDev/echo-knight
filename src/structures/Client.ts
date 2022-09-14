@@ -7,7 +7,7 @@ import {
   REST,
   Routes,
 } from 'discord.js';
-import { follow } from '../commands/basic.commands';
+import { follow, unfollow } from '../commands/basic.commands';
 import { hello, multiclass, quest } from '../commands/info.commands';
 
 export class ExtendedClient extends Client {
@@ -37,6 +37,7 @@ export class ExtendedClient extends Client {
       quest.toJSON(),
 
       follow.toJSON(),
+      unfollow.toJSON(),
     ];
 
     try {

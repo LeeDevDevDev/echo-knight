@@ -1,4 +1,4 @@
-import { joinVoiceChannel } from '@discordjs/voice';
+import { getVoiceConnection, joinVoiceChannel } from '@discordjs/voice';
 import { Interaction } from 'discord.js';
 import { client } from '..';
 
@@ -27,12 +27,20 @@ export async function interactionCreate(interaction: Interaction) {
       await interaction.reply('You are not in a voice channel, my guy.');
       return;
     }
-    await interaction.reply('Joining ' + member.voice.channel.name + '!');
+    await interaction.reply('Joining ' + member.voice.channel.name + '...');
 
     joinVoiceChannel({
       channelId: channelId,
       guildId: interaction.guildId,
       adapterCreator: interaction.guild.voiceAdapterCreator,
     });
+  } else if (interaction.commandName === 'unfollow') {
+    const voice = getVoiceConnection(interaction.guildId);
+    if (!voice) {
+      await interaction.reply('I am not in a voice channel, my guy.');
+      return;
+    }
+    await interaction.reply('Leaving...');
+    voice.disconnect();
   }
 }
