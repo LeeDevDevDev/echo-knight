@@ -7,11 +7,18 @@ import {
   REST,
   Routes,
 } from 'discord.js';
+import DisTube from 'distube';
 import { follow, unfollow } from '../commands/basic.commands';
 import { hello, multiclass, quest } from '../commands/info.commands';
+import { pause, play, resume, skip, stop } from '../commands/music.commands';
 
 export class ExtendedClient extends Client {
   rest = new REST({ version: '10' }).setToken(process.env.botToken);
+  distube = new DisTube(this, {
+    nsfw: true,
+    leaveOnStop: false,
+    leaveOnEmpty: false,
+  });
 
   constructor() {
     super({
@@ -38,6 +45,13 @@ export class ExtendedClient extends Client {
 
       follow.toJSON(),
       unfollow.toJSON(),
+
+      // import all commands from music commands
+      play.toJSON(),
+      skip.toJSON(),
+      stop.toJSON(),
+      pause.toJSON(),
+      resume.toJSON(),
     ];
 
     try {
